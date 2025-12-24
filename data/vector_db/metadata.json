@@ -1,0 +1,9 @@
+{
+  "num_molecules": 8,
+  "vector_shape": [
+    8,
+    384
+  ],
+  "embedding_dim": 384,
+  "model_name": "all-MiniLM-L6-v2"
+}
