@@ -1,227 +1,137 @@
+# OpenSmell Scent Search Engine
 
-# OpenSmell Search Engine
+The Search Engine for Scents, Smells and Olfactory Data
 
-A text-to-scent search engine that allows users to query a database of molecules using natural language odor descriptions.
+## Overview
 
-## 🚀 Quick Start
+OpenSmell is a proof-of-concept application that bridges natural language and chemical informatics. It transforms textual odor descriptions into mathematical vectors and performs similarity searches against a database of molecular scent profiles. The system consists of a FastAPI backend for serving search queries and a Streamlit-based web interface.
 
-### Local Development
+## Features
 
-1. **Clone and setup:**
-```bash
-git clone <repository-url>
-cd scent_search
-pip install -r requirements.txt
-Initialize data:
+*   **Natural Language Search**: Input descriptive odor queries to find relevant molecules.
+*   **Vector-Based Similarity**: Uses sentence transformer models (`all-MiniLM-L6-v2`) to encode text and scent descriptors into a shared vector space.
+*   **Efficient Retrieval**: Employs a FAISS index for fast nearest-neighbor search.
+*   **Modern Web Stack**: Features a FastAPI backend with auto-generated documentation and an interactive Streamlit frontend.
+*   **Modular Data Pipeline**: Designed for integration with olfactory datasets like the Pyrfume Project.
 
-bash
-python setup_data.py
-python build_vector_db.py
-Start the API server:
+## Project Structure
 
-bash
-cd api
-uvicorn main:app --reload
-Start the Streamlit UI (in another terminal):
-
-bash
-streamlit run streamlit_app.py
-Docker Deployment
-bash
-# Build and run with Docker Compose
-docker-compose up --build
-
-# Or run individually
-docker build -t opensmell .
-docker run -p 8000:8000 -p 8501:8501 opensmell
-🌐 Access Points
-API Documentation: http://localhost:8000/docs
-
-Streamlit UI: http://localhost:8501
-
-API Base URL: http://localhost:8000
-
-🔧 API Endpoints
-Search
-text
-GET /search?q=fruity+and+sweet&top_k=10
-Health Check
-text
-GET /health
-Database Info
-text
-GET /info
-Get Molecule by CID
-text
-GET /molecule/12345
-Find Similar Molecules
-text
-GET /similar/12345?top_k=5
-📊 Data Sources
-Primary: Pyrfume Project (The Good Scents Company)
-
-Format: Molecules with CID, SMILES, names, and odor descriptors
-
-Processing: Descriptors are vectorized using Sentence Transformers
-
-🧠 Search Methodology
-Query Processing: User's natural language query is embedded using all-MiniLM-L6-v2
-
-Scent Profiling: Each molecule's descriptors are averaged into a scent profile vector
-
-Similarity Search: FAISS index performs efficient cosine similarity search
-
-Ranking: Results sorted by similarity score (0-1)
-
-🗂️ Project Structure
-text
+```
 opensmell-search/
-├── api/                    # FastAPI backend
-│   ├── main.py            # API server
+├── api/                    # FastAPI backend application
+│   ├── main.py            # Core API server and endpoints
 │   └── requirements-api.txt
-├── data/                  # Data storage
-│   ├── processed/        # Cleaned data
-│   └── vector_db/       # FAISS indices & vectors
-├── streamlit_app.py      # Web interface
-├── setup_data.py         # Data initialization
-├── build_vector_db.py    # Vector database builder
-├── requirements.txt      # Python dependencies
+├── data/                  # Generated data storage
+│   ├── processed/        # Cleaned and structured molecule data
+│   └── vector_db/        # FAISS indices and embedding vectors
+├── streamlit_app.py      # Primary web interface
+├── setup_data.py         # Script to load and preprocess odorant data
+├── build_vector_db.py    # Script to create the vector search database
+├── requirements.txt      # Main Python dependencies
 ├── Dockerfile
 ├── docker-compose.yml
 └── README.md
-🔮 Future Roadmap
-Phase 2: Enhanced Features
-User accounts and saved searches
+```
 
-Molecule structure visualization
+## Getting Started
 
-Community odor descriptions
+### Prerequisites
 
-Advanced filtering (molecular weight, volatility)
+*   Python 3.11 or 3.12
+*   `pip` package manager
 
-Phase 3: API for Makers
-RESTful API for e-nose devices
+### Local Installation & Setup
 
-Real-time sensor data processing
+1.  **Clone the repository and set up the environment:**
+    ```bash
+    git clone https://github.com/praisejamesx/scent_search.git
+    cd scent_search
+    python -m venv .venv
+    # On Windows: .venv\Scripts\activate
+    # On macOS/Linux: source .venv/bin/activate
+    ```
 
-Multi-modal search (text + sensor data)
+2.  **Install Python dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Commercial API tier
+3.  **Initialize the data and build the search index:**
+    ```bash
+    python setup_data.py
+    python build_vector_db.py
+    ```
+    *Note: The initial setup uses a synthetic dataset. See the Data Sources section for integrating real-world data.*
 
-Phase 4: Advanced ML
-Fine-tuned odor embedding model
+### Running the Application
 
-Cross-modal retrieval (image/sound to scent)
+1.  **Start the Backend API Server** (in one terminal):
+    ```bash
+    cd api
+    uvicorn main:app --reload
+    ```
+    The API will be available at `http://localhost:8000`. Interactive documentation (Swagger UI) is at `http://localhost:8000/docs`.
 
-Predictive odor generation
+2.  **Start the Web Interface** (in a separate terminal from the project root):
+    ```bash
+    streamlit run streamlit_app.py
+    ```
+    The Streamlit application will open in your browser at `http://localhost:8501`.
 
-Large-scale odor mapping
+## Usage
 
-📈 Monetization Path
-Phase 1: Open source, community building
+### Using the Web Interface
+Navigate to `http://localhost:8501`. Enter a natural language odor description (e.g., "fruity and sweet") into the search bar to retrieve a list of matching molecules ranked by similarity score.
 
-Phase 2: Premium features (advanced search, analytics)
+### Core API Endpoints
 
-Phase 3: API-as-a-Service for e-nose makers
+| Endpoint | Method | Description | Parameters |
+| :--- | :--- | :--- | :--- |
+| `/search` | `GET` | Main search endpoint. | `q`: Query string.<br>`top_k`: Number of results (default: 10). |
+| `/molecule/{cid}` | `GET` | Fetch details for a specific PubChem CID. | `cid`: PubChem Compound ID. |
+| `/similar/{cid}` | `GET` | Find molecules similar to a given CID. | `cid`: Query CID.<br>`top_k`: Number of results. |
+| `/health` | `GET` | Service health check. | |
+| `/info` | `GET` | Basic database metadata. | |
 
-Phase 4: Enterprise solutions (perfume, food industry)
+## Technical Details
 
-🤝 Contributing
-We welcome contributions! Please see our Contributing Guidelines.
+### Search Methodology
+1.  **Query Embedding**: User input is converted into a 384-dimensional vector using the `all-MiniLM-L6-v2` sentence transformer.
+2.  **Scent Profile Representation**: Each molecule's odor descriptors are individually embedded and averaged to form a single scent profile vector.
+3.  **Similarity Matching**: The query vector is compared against all scent profile vectors using cosine similarity within a pre-built FAISS index.
+4.  **Ranking**: Molecules are ranked by their similarity score (0 to 1, where 1 is most similar).
 
-Fork the repository
+### Data Sources
+The primary data source is the [Pyrfume Project](https://github.com/pyrfume/pyrfume-data), which provides structured databases linking molecules to odor descriptors (e.g., The Good Scents Company data). The current prototype includes a synthetic dataset for demonstration and development.
 
-Create a feature branch
+## Deployment
 
-Submit a Pull Request
-
-📄 License
-MIT License - see LICENSE file for details.
-
-🙏 Acknowledgments
-Pyrfume Project for odor data
-
-Sentence Transformers for embedding models
-
-FAISS for efficient similarity search
-
-Streamlit & FastAPI communities
-
-text
-
-## **Quick Start Commands**
+### Docker
+A containerized setup is provided for easy deployment.
 
 ```bash
-# 1. Clone and setup (if using version control)
-git clone https://github.com/yourusername/opensmell-search.git
-cd opensmell-search
+# Build and run using Docker Compose
+docker-compose up --build
 
-# 2. Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Or build and run individually
+docker build -t opensmell .
+docker run -p 8000:8000 -p 8501:8501 opensmell
+```
 
-# 3. Install dependencies
-pip install -r requirements.txt
+## Development Roadmap
 
-# 4. Setup data
-python setup_data.py
+*   **Data Integration**: Reliable ingestion of the full Pyrfume datasets and other public olfactory databases.
+*   **Enhanced Features**: Advanced filtering (by molecular weight, volatility), molecular structure visualization, and user session management.
+*   **Model Improvement**: Experimentation with specialized embedding models and fine-tuning for the olfactory domain.
+*   **System Scalability**: Implementation of a dedicated database for metadata and caching layers for improved performance.
+*   **E-Nose Integration**: Hardware integration to allow search from digital olfaction devices.
 
-# 5. Build vector database
-python build_vector_db.py
+## Contributing
+Contributions are welcome. Please feel free to fork the repository, create a feature branch, and submit a pull request.
 
-# 6. Start API server (Terminal 1)
-cd api
-uvicorn main:app --reload
+## License
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-# 7. Start UI (Terminal 2)
-cd ..
-streamlit run streamlit_app.py
-Testing the System
-Once everything is running:
-
-Test API:
-
-Open browser to http://localhost:8000/docs for interactive API docs
-
-Try: http://localhost:8000/search?q=fruity+and+sweet
-
-Test UI:
-
-Open browser to http://localhost:8501
-
-Search for "fruity sweet", "woody smoky", etc.
-
-Verify data:
-
-Check http://localhost:8000/info for database stats
-
-Inspect data/vector_db/ for generated files
-
-Next Steps & Phase 2 Preparation
-Enhance data pipeline:
-
-Add more datasets from Pyrfume
-
-Implement data versioning
-
-Add data quality checks
-
-Improve search quality:
-
-Experiment with different embedding models
-
-Implement query expansion
-
-Add relevance feedback
-
-Scale infrastructure:
-
-Set up PostgreSQL for molecule metadata
-
-Implement Redis caching for frequent queries
-
-Add monitoring and logging
-
-This implementation gives you a working MVP that can be deployed today. The architecture is modular, allowing you to easily swap components as you scale.
-
-Would you like me to elaborate on any specific part or help you with deployment to a specific platform (Hugging Face Spaces, Streamlit Cloud, etc.)?
+## Acknowledgments
+*   [Pyrfume Project](https://pyrfume.org/) for curating and providing open access to olfactory data.
+*   The developers of [Sentence Transformers](https://www.sbert.net/), [FAISS](https://github.com/facebookresearch/faiss), [FastAPI](https://fastapi.tiangolo.com/), and [Streamlit](https://streamlit.io/).
