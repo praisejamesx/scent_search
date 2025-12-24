@@ -1,0 +1,88 @@
+# ================================
+# OpenSmell Scent Search Engine
+# ================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS & System
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project Data & Models
+data/vector_db/   # FAISS indices and vector files
+data/processed/   # Processed molecule JSON files (can be regenerated)
+*.pkl
+*.pickle
+*.joblib
+*.h5
+*.hdf5
+*.pdf
+
+# HuggingFace Transformers / Sentence-Transformers Cache
+.cache/
+.huggingface/
+models/  # Locally saved model downloads
+
+# Jupyter & Notebooks (if you add them later)
+.ipynb_checkpoints
+
+# Environment Variables (SECURITY)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Streamlit
+.streamlit/secrets.toml  # Contains secrets, keep local!
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+temp/
+tmp/
