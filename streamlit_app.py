@@ -13,7 +13,7 @@ sys.path.append(str(Path(__file__).parent))
 
 # Page configuration
 st.set_page_config(
-    page_title="OpenSmell Search Engine",
+    page_title="Scent Search Engine",
     page_icon="👃",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -215,7 +215,7 @@ def main():
         
         st.markdown("### About")
         st.info("""
-        This is a text-to-scent search engine that finds 
+        This is a scent search engine that finds 
         molecules based on their odor descriptions.
         
         **Examples:**

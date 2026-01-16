@@ -12,6 +12,7 @@ build/
 develop-eggs/
 dist/
 downloads/
+models/
 eggs/
 .eggs/
 lib/
@@ -52,8 +53,7 @@ ehthumbs.db
 Thumbs.db
 
 # Project Data & Models
-data/vector_db/   # FAISS indices and vector files
-data/processed/   # Processed molecule JSON files (can be regenerated)
+data/
 *.pkl
 *.pickle
 *.joblib

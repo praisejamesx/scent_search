@@ -12,7 +12,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 from build_vector_db import ScentDatabase
 
 app = FastAPI(
-    title="OpenSmell Search Engine API",
+    title="Scent Search Engine API",
     description="Text-to-scent search engine for odor molecules",
     version="1.0.0"
 )
@@ -35,8 +35,8 @@ async def startup_event():
     global db
     try:
         db = ScentDatabase()
-        db.load()  # Try to load existing database
-        print("Database loaded successfully")
+        db.load(Path('data/full_database'))
+        print(f"Database loaded successfully: {len(db.molecules)} molecules")
     except Exception as e:
         print(f"Error loading database: {e}")
         print("Building new database...")

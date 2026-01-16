@@ -17,7 +17,7 @@ OpenSmell is a proof-of-concept application that bridges natural language and ch
 ## Project Structure
 
 ```
-opensmell-search/
+scent_search/
 ├── api/                    # FastAPI backend application
 │   ├── main.py            # Core API server and endpoints
 │   └── requirements-api.txt
@@ -37,7 +37,7 @@ opensmell-search/
 
 ### Prerequisites
 
-*   Python 3.11 or 3.12
+*   Python 3.11.9
 *   `pip` package manager
 
 ### Local Installation & Setup
